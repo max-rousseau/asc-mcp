@@ -24,11 +24,27 @@ _APPLE_HOST_SUFFIXES = (".apple.com", ".mzstatic.com", ".icloud.com")
 
 
 def _validate_app_id(asc_app_id: str) -> None:
+    """Validate that an App Store Connect app id is numeric.
+
+    Args:
+        asc_app_id: The candidate app id string to check.
+
+    Raises:
+        ValueError: If ``asc_app_id`` contains anything other than digits.
+    """
     if not _APP_ID_RE.match(asc_app_id):
         raise ValueError("asc_app_id must contain digits only")
 
 
 def _validate_limit(limit: int) -> None:
+    """Validate that a page-size limit is within the allowed range.
+
+    Args:
+        limit: The requested number of results, expected in ``[1, 200]``.
+
+    Raises:
+        ValueError: If ``limit`` is outside the inclusive range 1-200.
+    """
     if not 1 <= limit <= 200:
         raise ValueError("limit must be between 1 and 200 inclusive")
 
