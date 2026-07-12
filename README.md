@@ -83,12 +83,6 @@ http://127.0.0.1:8081/mcp
 `asc_app_id` must contain digits only, and `limit` must be between 1 and 200
 inclusive. `submission_id` may only contain letters, digits, and dashes.
 
-The app's numeric Apple ID is deliberately **not** part of server
-configuration (there is no `ASC_APP_ID` env var) — every MCP client call to
-`list_screenshot_feedback` or `list_crash_feedback` must pass `asc_app_id`
-explicitly instead; see "Find your app's numeric ID" below for why, and where
-to find the value.
-
 ### Example MCP client config
 
 ```json
@@ -133,21 +127,7 @@ once.
 | `ASC_KEY_ID` | Users and Access → Integrations → App Store Connect API, keys table |
 | `ASC_ISSUER_ID` | Users and Access → Integrations → App Store Connect API, shown at the top of the page |
 | `ASC_PRIVATE_KEY_B64` | Base64 of the `.p8` file downloaded when creating the key above |
-| `asc_app_id` (tool parameter, not an env var) | Apps → *(your app)* → App Information → General Information → Apple ID |
-
-### Find your app's numeric ID
-
-The `asc_app_id` parameter used by the tools is the app's numeric Apple ID.
-Find it in App Store Connect under **Apps → (your app) → App Information →
-General Information → Apple ID**.
-
-This value is intentionally **not** server configuration — there is no
-`ASC_APP_ID` env var. It's a per-call tool parameter instead, so one running
-server instance can serve TestFlight feedback for multiple apps; every MCP
-client must pass `asc_app_id` on each `list_screenshot_feedback` /
-`list_crash_feedback` call (see "Tools" above). `get_crash_log` and
-`download_screenshot` don't need it — they're keyed by `submission_id` and
-`url` respectively.
+| `asc_app_id` (tool parameter) | Apps → *(your app)* → App Information → General Information → Apple ID |
 
 ### Steps
 

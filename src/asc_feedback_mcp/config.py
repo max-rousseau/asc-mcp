@@ -2,8 +2,7 @@
 
 Every value is required. There are no defaults and no fallbacks: a missing or
 empty variable, or a private key that fails to base64-decode or does not look
-like PEM, is a fatal startup error. ASC_APP_ID is intentionally NOT part of this
-module -- it is supplied per tool call.
+like PEM, is a fatal startup error.
 """
 
 from __future__ import annotations
