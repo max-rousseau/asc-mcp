@@ -23,12 +23,16 @@ class TestMissingVariables:
         with pytest.raises(RuntimeError, match="ASC_PRIVATE_KEY_B64 is not set"):
             import_config()
 
-    def test_empty_string_is_treated_as_missing(self, monkeypatch, valid_env, import_config):
+    def test_empty_string_is_treated_as_missing(
+        self, monkeypatch, valid_env, import_config
+    ):
         monkeypatch.setenv("ASC_KEY_ID", "")
         with pytest.raises(RuntimeError, match="ASC_KEY_ID is not set"):
             import_config()
 
-    def test_missing_var_error_points_to_env_example(self, monkeypatch, valid_env, import_config):
+    def test_missing_var_error_points_to_env_example(
+        self, monkeypatch, valid_env, import_config
+    ):
         monkeypatch.delenv("ASC_ISSUER_ID", raising=False)
         with pytest.raises(RuntimeError, match=r"Copy \.env\.example to \.env"):
             import_config()

@@ -81,7 +81,7 @@ http://127.0.0.1:8081/mcp
 | `download_screenshot` | `url: str` | Download a TestFlight feedback screenshot and return it as image content. Host validation is best-effort: requires https and an Apple-owned hostname. |
 
 `asc_app_id` must contain digits only, and `limit` must be between 1 and 200
-inclusive. `submission_id` may only contain letters, digits, and dashes.
+inclusive. `submission_id` may only contain letters, digits, dashes, and underscores.
 
 ### Example MCP client config
 

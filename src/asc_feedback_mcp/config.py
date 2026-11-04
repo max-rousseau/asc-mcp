@@ -46,9 +46,7 @@ def _require_private_key() -> str:
     try:
         pem = base64.b64decode(raw, validate=True).decode("utf-8")
     except (binascii.Error, ValueError, UnicodeDecodeError):
-        raise RuntimeError(
-            f"ASC_PRIVATE_KEY_B64 is not valid base64. {_HELP}"
-        )
+        raise RuntimeError(f"ASC_PRIVATE_KEY_B64 is not valid base64. {_HELP}")
     if "-----BEGIN" not in pem:
         raise RuntimeError(
             f"ASC_PRIVATE_KEY_B64 does not decode to a PEM private key. {_HELP}"
