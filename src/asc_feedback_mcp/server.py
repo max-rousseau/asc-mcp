@@ -13,10 +13,10 @@ from mcp.server.fastmcp import FastMCP, Image
 
 from .asc_client import client
 
-mcp = FastMCP("asc-feedback", host="0.0.0.0", port=8080)
+mcp = FastMCP("asc-feedback", host="0.0.0.0", port=8080)  # nosec
 
-_APP_ID_RE = re.compile(r"^\d+$")
-_SUBMISSION_ID_RE = re.compile(r"^[A-Za-z0-9-]+$")
+_APP_ID_RE = re.compile(r"^[0-9]+\Z")
+_SUBMISSION_ID_RE = re.compile(r"^[A-Za-z0-9_-]+\Z")
 # Apple-controlled download hosts. Best-effort: Apple's TestFlight screenshot CDN
 # host is not publicly documented as a fixed pattern, so we allow the known
 # Apple-owned suffixes and otherwise require https (see download_screenshot).
@@ -78,7 +78,9 @@ async def get_crash_log(submission_id: str) -> dict:
     Returns raw App Store Connect API JSON (.data.attributes.logText holds the log).
     """
     if not _SUBMISSION_ID_RE.match(submission_id):
-        raise ValueError("submission_id may only contain letters, digits, and dashes")
+        raise ValueError(
+            "submission_id may only contain letters, digits, dashes, and underscores"
+        )
     return await client.get_crash_log(submission_id)
 
 
@@ -94,13 +96,18 @@ async def download_screenshot(url: str) -> Image:
     if parsed.scheme != "https":
         raise ValueError("url must be an https URL")
     host = parsed.host
-    if not any(host == suffix.lstrip(".") or host.endswith(suffix) for suffix in _APPLE_HOST_SUFFIXES):
+    if not any(
+        host == suffix.lstrip(".") or host.endswith(suffix)
+        for suffix in _APPLE_HOST_SUFFIXES
+    ):
         raise ValueError("url host is not an Apple-controlled domain")
 
     async with httpx.AsyncClient(follow_redirects=False) as http:
         response = await http.get(url)
     if response.is_redirect:
-        raise ValueError("url redirected; refusing to follow redirect off the allowed host")
+        raise ValueError(
+            "url redirected; refusing to follow redirect off the allowed host"
+        )
     response.raise_for_status()
 
     content_type = response.headers.get("Content-Type", "image/png")

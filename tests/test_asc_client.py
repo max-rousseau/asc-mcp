@@ -76,7 +76,9 @@ class TestGetHelper:
         assert str(request.url) == f"{asc_client_module.API_BASE}/v1/test"
         assert request.headers["authorization"].startswith("Bearer ")
 
-    async def test_get_error_raises_asc_api_error(self, asc_client_module, mock_transport):
+    async def test_get_error_raises_asc_api_error(
+        self, asc_client_module, mock_transport
+    ):
         def handler(request):
             return httpx.Response(404, text="not found")
 
@@ -106,7 +108,9 @@ class TestGetHelper:
 
 
 class TestEndpointConstruction:
-    async def test_list_screenshot_feedback_url(self, asc_client_module, mock_transport):
+    async def test_list_screenshot_feedback_url(
+        self, asc_client_module, mock_transport
+    ):
         captured = {}
 
         def handler(request):

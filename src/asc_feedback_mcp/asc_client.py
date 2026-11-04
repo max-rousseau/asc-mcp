@@ -41,7 +41,9 @@ class AscApiError(RuntimeError):
             body: The raw response body text.
             url: The request URL that failed.
         """
-        super().__init__(f"App Store Connect API request failed ({status_code}) for {url}: {body}")
+        super().__init__(
+            f"App Store Connect API request failed ({status_code}) for {url}: {body}"
+        )
         self.status_code = status_code
         self.body = body
         self.url = url
@@ -166,7 +168,9 @@ class AscClient:
         Raises:
             AscApiError: If the request fails with a non-2xx response.
         """
-        return await self._get(f"/v1/betaFeedbackCrashSubmissions/{submission_id}/crashLog")
+        return await self._get(
+            f"/v1/betaFeedbackCrashSubmissions/{submission_id}/crashLog"
+        )
 
 
 client = AscClient()
